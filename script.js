@@ -156,6 +156,7 @@ function bindNovosEventosCalendario(){
 }
 
 function ajustaSeletoresCriancasEAdultos(){
+	
 	//Remove borde se idade da criança for selecionada.
 	$('.bloco-seletor-crianca,.seletor-crianca-mais-option-item').on('click',function(){
 		$('#container-seletor-crianca-idades').children().click(function(){
@@ -173,6 +174,14 @@ function ajustaSeletoresCriancasEAdultos(){
 		$('#container-seletor-adultos').children().attr('style','background-color:#303131 !important');
 		$('#container-seletor-adultos').children().eq(2).find('span').attr('style','background-color:#303131 !important');
 		$(this).attr('style','background-color:#493e39 !important');
+	});
+	
+	$('.bloco-seletor-adulto,#seletor-adulto-mais-option-container').click(function(){
+		setTimeout(function(){
+			$('.mcolor-busca-dark').css('background-color','#201f1d');
+			$('.bloco-seletor-adulto-selected').attr('style','background-color:#493e39 !important');
+			},1);
+		
 	});
 	
 	$('.seletor-adulto-mais-option-item').on('click',function(){
