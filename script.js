@@ -16,6 +16,9 @@ function ajustaElementosCabecalho(){
 	$('#navTop').css('background-color',corPrimaria); 	
 	$('#navContent img').attr('src','https://imgur.com/tRUAE2b.png').css('top','35px');
 	$('.mcolor-label-text2').css('color',corPrimaria);
+	$("#busca-fechada-container").click(function(){
+		$('.bloco-seletor-adulto-selected').attr('style','background-color:#493e39 !important;');
+	});
 	$(document).scroll(function() {
 		$('#busca-flutuante-icon-adultos').css('color',corPrimaria);
 		$('.bloco-seletor-adulto-selected').attr('style','background-color:#493e39 !important;');
@@ -178,13 +181,6 @@ function ajustaSeletoresCriancasEAdultos(){
 	});
 }
 
-//Busca o identificador da empresa através do atributo 'onClick' do elemento infoHotel.
-function buscaEmpresaId(el){
-	var onclickScript = el.siblings().eq(1).attr('onclick');
-	var id = onclickScript.substring(onclickScript.indexOf('(')+1,onclickScript.indexOf(','));
-	$("#hfHotelID").val(id);
-}
-
 function ajustaCorpoDoSite(){
 	var h1 = $('.itemHotel').eq(0).clone();
 	var h2 = $('.itemHotel').eq(1).clone();
@@ -239,9 +235,11 @@ function ajustaCorpoDoSite(){
 		width: '100%'
 	});
 	
+	$(".tituloHotel").append("<img src='https://imgur.com/pjFMHgL.png' style='width:auto; height:auto; margin-left: 10px; margin-top: -3px; position: absolute;'></img>")
+	
 	//$('.tituloHotel').css('margin-top','15px');
 	//$('.tituloHotel').css('width','100%');
-	$('.itemVarNomeHotel').css('font-size','16px');
+	$('.itemVarNomeHotel').css('font-size','16px').css('width','60%');
 	$('.itemVarEnderecoHotel').css('margin-right','6px');
 	
 	$('.itemVarTelefoneHotel').css({
@@ -283,7 +281,11 @@ function ajustaCorpoDoSite(){
 	});
 
 	$('.itemBtnMaisAcomodacoes').html("Ver promoções do hotel");
-	$('.itemBtnMaisAcomodacoes').attr('onclick','$("#modificar-dados-modal-overlay").fadeIn(200); $("#modificar-dados-modal").attr("style","left:43%; width:880px !important; height:545px; top:43%;"); buscaEmpresaId($(this))');
+	$('.itemBtnMaisAcomodacoes')[0].onclick = function() { 
+		$("#modificar-dados-modal-overlay").fadeIn(200);
+		$("#modificar-dados-modal").attr("style","left:43%; width:880px !important; height:545px; top:43%;");
+		window.hotelId = $(this).siblings().eq(1).attr("onclick").substring($(this).siblings().eq(1).attr("onclick").indexOf("(")+1,$(this).siblings().eq(1).attr("onclick").indexOf(","));
+	};
 	
 	$('.hotel-indisponivel-ico').css('margin-top','-10px');
 	$('.hotel-indisponivel-texto-container').css('margin-top','-20px');
@@ -306,12 +308,6 @@ function ajustaFooter(){
 }
 
 function criaModalPromocoes(){
-	//Cria um hiddenfield p/ armazenar o ID do hotel que possui as promoções
-	$('<input>').attr({
-		type: 'hidden',
-		id: 'hfHotelID'
-	}).appendTo('#content');
-	
 	//Utiliza uma modal existente para criar a modal de promoções
 	$('#modificar-dados-conteudo').empty();	
 	$('#modificar-dados-conteudo').css('max-height','420px').css('height','auto').css('overflow-y','scroll').css('margin-left','65px').css('margin-right','45px').css('margin-top','40px');
@@ -319,15 +315,13 @@ function criaModalPromocoes(){
 	$(title).insertBefore($('#modificar-dados-conteudo'));
 	//Evento do botão para buscar dados e abrir modal promoções
 	$('.itemBtnMaisAcomodacoes').click(function(){
-		buscaDadosPromocao();
+		setTimeout(function(){buscaDadosPromocao();},300);
 	});
 }
 
 function buscaDadosPromocao(){
-	console.log($('#hfHotelID').val());
-	var url = 'https://www.pmweb.com.br/teste-cro/promocoes/'+$('#hfHotelID').val();
-	url += '.json';
-	$.get(url,function(data){ 
+	var url = 'https://www.pmweb.com.br/teste-cro/promocoes/'+window.hotelId+'.json';
+	$.get(url.toString(),function(data){ 
 		$("#modificar-dados-conteudo").html(""); 
 		PreencheModalPromocoes(data);
 	});
