@@ -67,7 +67,6 @@ function ajustaDatePickerCalendario(){
 	var bAjustouPreco = false;
 	$('#calendario-1').on('DOMNodeInserted', '.bestRate', function () {
 		if(!bAjustouPreco){
-			AjustaEstiloDataBetweenCalendario();
 			bAjustouPreco = true;
 			setTimeout(function(){
 				$('span[class*="fadeIn"]').each(function( index ) {
@@ -276,7 +275,7 @@ function ajustaCorpoDoSite(){
 	});
 
 	$('.itemBtnMaisAcomodacoes').html("Ver promoções do hotel");
-	$('.itemBtnMaisAcomodacoes').attr('onclick','$("#modificar-dados-modal-overlay").fadeIn(200); $("#modificar-dados-modal").attr("style","left:41%; width:850px !important; height:480px"); buscaIdEmpresa($(this))');
+	$('.itemBtnMaisAcomodacoes').attr('onclick','$("#modificar-dados-modal-overlay").fadeIn(200); $("#modificar-dados-modal").attr("style","left:43%; width:880px !important; height:545px; top:43%;"); buscaIdEmpresa($(this))');
 	
 	$('.hotel-indisponivel-ico').css('margin-top','-10px');
 	$('.hotel-indisponivel-texto-container').css('margin-top','-20px');
@@ -286,6 +285,7 @@ function ajustaCorpoDoSite(){
 	$('.valorContainer').css('position','absolute').css('margin-top','20px');
 	$('.itemVarValorSemDesconto').css('float','left').css('width','auto').css('color','#989898');
 	$('.itemBtnEfetuarReserva').css('background-color','#fc5b49').css('margin-top','3px').css('font-size','15px');
+	hoverBtnReservar();
 }
 
 function ajustaFooter(){
@@ -307,10 +307,8 @@ function criaModalPromocoes(){
 	
 	//Utiliza uma modal existente para criar a modal de promoções
 	$('#modificar-dados-conteudo').empty();	
-	$('#modificar-dados-conteudo').css('max-height','350px');
-	//$('#modificar-dados-modal').attr('style','left:42%; width:800px !important;');
-	$('#modificar-dados-conteudo').css('height','auto').css('overflow-y','scroll').css('margin-left','60px').css('margin-right','50px').css('margin-top','20px');
-	var title = '<div class="div-titulo-promocoes" style="width:100%; padding-left:60px; text-align:left; margin-top:30px;"><span id="titulo-modal-promocoes" style="font-size:23px; display: inline-block; margin-left: -15px; font-weight:bold; transform: scale(.8, 1);">PROMOÇÕES</span></div>';
+	$('#modificar-dados-conteudo').css('max-height','420px').css('height','auto').css('overflow-y','scroll').css('margin-left','65px').css('margin-right','45px').css('margin-top','40px');
+	var title = '<div class="div-titulo-promocoes" style="width:100%; padding-left:70px; text-align:left; margin-bottom: -10px; margin-top:30px;"><span id="titulo-modal-promocoes" style="font-size:23px; display: inline-block; margin-left: -15px; font-weight:bold; transform: scale(.9, 1);">PROMOÇÕES</span></div>';
 	$(title).insertBefore($('#modificar-dados-conteudo'));
 	//Evento do botão para buscar dados e abrir modal promoções
 	$('.itemBtnMaisAcomodacoes').click(function(){
@@ -328,24 +326,41 @@ function buscaIdEmpresa(el){
 function buscaDadosPromocao(){
 	var url = 'https://www.pmweb.com.br/teste-cro/promocoes/'+$("#hfHotelID").val()+'.json';
 	$.get(url,function(data){ 
+		$("#modificar-dados-conteudo").html(""); 
 		PreencheModalPromocoes(data);
 	});
 }
 
 function PreencheModalPromocoes(data){
+	var cont = 0;
 	for(var i =0;i<data.length;i++){
-		var itemPromocao = '<div id="itemPromocao_'+i+'" class="itemPromocao" style="width:200px; height:185px; float:left; border-right: 1px dotted lightgrey;"></div>';
+		cont++;
+		switch(cont){
+			case 1:
+			var itemPromocao = '<div id="itemPromocao_'+i+'" class="itemPromocao" style="width:210px;  height:185px; float:left;"></div>';
+			break;
+			case 2:
+			var itemPromocao = '<div id="itemPromocao_'+i+'" class="itemPromocao" style="width:210px;  height:185px; float:left; border-right: 1px dotted lightgrey; border-left: 1px dotted lightgrey; padding-left: 60px;"></div>';
+			break;
+			case 3:
+			var itemPromocao = '<div id="itemPromocao_'+i+'" class="itemPromocao" style="width:210px; height:185px; float:left; padding-left: 60px;"></div>';
+			cont = 0;
+			break;
+		}
+		
 		$('#modificar-dados-conteudo').append(itemPromocao);
+		if(i>2)$('#itemPromocao_'+i).css('margin-top','40px');
 		var divHeader = montaDivHeader(i);
 		var nomePromocao = montaSpanNomePromocao(data[i].NomeTarifa);
 		
 		var divBody = montaDivBody(i);
 		var descricaoTarifa = montaDescricaoTarifa(data[i].DescricaoTarifa);
-		var valorTarifa = '<span class="valorTarifa">'+data[i].ValorTarifa+'</span>';
-		var valorTarifaSemDesconto = '<span class="valorTarifaSemDesconto">'+data[i].ValorTarifaSemDesconto+'</span>';
-		var tipoMoeda = '<span class="tipoMoeda">'+data[i].TipoMoeda+'</span>';
+		
+		var divFooter = montaDivFooter(i);
+		var valorTarifaSemDesconto = montaTarifaSemDesconto(data[i].TipoMoeda+' '+data[i].ValorTarifaSemDesconto);
+		var valorTarifa = montaTarifa(data[i].TipoMoeda+' '+data[i].ValorTarifa);
 		var regraTarifa = montaToolTip(data[i].RegrasTarifa);
-		var botaoReservar = data[i].LinkPublico;
+		var botaoReservar = montaBtnReservar(data[i].LinkPublico);
 		
 		$('#itemPromocao_'+i).append(divHeader);
 		$('#itemHeader_'+i).append(nomePromocao);
@@ -353,11 +368,16 @@ function PreencheModalPromocoes(data){
 		
 		$('#itemPromocao_'+i).append(divBody);
 		$('#itemBody_'+i).append(descricaoTarifa);
+		
+		$('#itemPromocao_'+i).append(divFooter);
+		$('#itemFooter_'+i).append(valorTarifaSemDesconto);
+		$('#itemFooter_'+i).append(valorTarifa);
+		$('#itemFooter_'+i).append(botaoReservar);
+		
 	}
 	
 	hoverToolTip();
-	ajustaBordaEEspacoPromocoes();
-	
+	setTimeout(function(){hoverBtnReservar();},300);
 }
 
 function montaDivHeader(id){
@@ -368,34 +388,47 @@ function montaDivBody(id){
 	return '<div id="itemBody_'+id+'" style="margin-top:15px; color:grey; letter-spacing: 0.2px; float:left;"></div>';
 }
 
+function montaDivFooter(id){
+	return '<div id="itemFooter_'+id+'" style="height:30px; height: 80px; margin-top: 103px;"></div>';
+}
+
 function montaSpanNomePromocao(nome){
-	return '<span style="float:left; font-weight:bold; font-size:14px; max-width:145px; text-align:left;">'+nome+'</span>';
+	return '<span style="float:left; font-weight:bold; font-size:14px; max-width:145px; text-align:left; letter-spacing: 0.3px; overflow: hidden; white-space:nowrap; text-overflow:ellipsis;">'+nome+'</span>';
 }
 
 function montaDescricaoTarifa(tarifas){
 	var tarifasHtml = "";
 	for(var i =0;i<tarifas.length;i++){
-		tarifasHtml += "<span class = 'tarifa' style='display:flex; padding-bottom:5px;'>- "+tarifas[i]+"</span>";
+		tarifasHtml += "<span class = 'tarifa' style='display:flex; padding-bottom:7px;'>- "+tarifas[i]+"</span>";
 	}
 	return tarifasHtml;
 }
 
-function montaToolTip(regra){
-	return '<div class="tooltip_icon" style="'+estiloToolTipIcon +'">?</div><div class="tooltip_msg" style="'+estiloToolTipMsg +'">'+regra+'</div>'
+function montaTarifaSemDesconto(valor){
+	return '<span class="itemVarValorSemDesconto" style="'+estiloValorSemDesconto+'"> '+valor+',00 </span>';
 }
 
-function ajustaBordaEEspacoPromocoes(){
-	
+function montaTarifa(valor){
+	return '<span class="itemVarValorFinal discounted" style="'+estiloValor+'">'+valor+',00</span>';
 }
+
+function montaToolTip(regra){
+	return '<div class="tooltip_icon" style="'+estiloToolTipIcon +'">?</div><div class="tooltip_msg" style="'+estiloToolTipMsg +'">'+regra+'<div class="arrowDown" style="'+estiloArrowDownToolTip+'"></div></div>';
+}
+
+function montaBtnReservar(href){
+	return "<div onclick='window.open(`"+href+"`)' style='"+estiloBtnReservar+"' class='mcolor-action-btn'>RESERVAR</div>";
+}
+
+
 
 function hoverToolTip(){
 	$('.tooltip_icon').hover(function () {
 		var toolTipMsg = $(this).siblings().eq(1);
 		$(this).css('background-color',corPrimaria);
-		toolTipMsg.css('top', $(this).position().top-toolTipMsg.height()-15);
+		toolTipMsg.css('top', $(this).position().top-toolTipMsg.height()-25);
 		toolTipMsg.css('left', $(this).position().left - toolTipMsg.width()/2 +10);
 		toolTipMsg.show();
-		
 	}, 
 	function () {
 		var toolTipMsg = $(this).siblings().eq(1);
@@ -404,9 +437,21 @@ function hoverToolTip(){
 	});
 }
 
-var estiloToolTipIcon = "float:left;  margin-left: 5px; margin-top:1px; font-size: 10px; height: 13px; width: 13px; text-align: center;  color: #fff; background-color: #b8b8b8; font-weight: 200; border-radius: 15px; cursor: pointer;";
-var estiloToolTipMsg = "background-color:white;color:grey;border:1px solid grey; border-radius:10px; font-size:12px; height:auto;width:200px;display:none; position:absolute;padding:3px;";
+function hoverBtnReservar(){
+	$(".mcolor-action-btn").hover(function () {
+		$(this).attr('style',$(this).attr('style')+'background-color:#ff7a6b !important;');
+	}, 
+	function () {
+		$(this).attr('style',$(this).attr('style')+'background-color:#fc5b49 !important;');
+	});
+}
 
+var estiloToolTipIcon = "float:left; margin-left: 5px; margin-top:1px; font-size: 10px; height: 13px; width: 13px; text-align: center;  color: #fff; background-color: #b8b8b8; font-weight: 200; border-radius: 15px; cursor: pointer;";
+var estiloToolTipMsg = "text-align: justify; background-color:white; color:grey; box-shadow: #afaeae 0px 0px 10px 0px; border-radius:10px; font-size:12px; height:auto;width:200px;display:none; position:absolute;padding:10px;";
+var estiloArrowDownToolTip = "width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; margin-left: 84px; margin-top: 10px; position:absolute; border-top: 10px solid white;";
+var estiloBtnReservar = "background-color: #fc5b49; font-size: 15px;height: 40px; width: 130px; color: #fff; float: left; text-align: center; line-height: 40px; border-radius: 5px; font-weight: 500; cursor: pointer; margin-top: 17px;";
+var estiloValorSemDesconto = "text-decoration: line-through; color: #989898; float: left; margin-top:7px;";
+var estiloValor = "color: #EF6620; font-weight: 600; font-size: 20px; float: left; margin-left:10px; margin-left: 10px;"; 
 
 
 
