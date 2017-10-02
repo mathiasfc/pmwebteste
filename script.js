@@ -297,7 +297,6 @@ function ajustaFooter(){
 	$('#buscarNovamente #paragrafo h1').css('margin-top','60px');
 }
 
-
 function criaModalPromocoes(){
 	//Cria um hiddenfield p/ armazenar o ID do hotel que possui as promoções
 	$('<input>').attr({
@@ -373,7 +372,6 @@ function PreencheModalPromocoes(data){
 		$('#itemFooter_'+i).append(valorTarifaSemDesconto);
 		$('#itemFooter_'+i).append(valorTarifa);
 		$('#itemFooter_'+i).append(botaoReservar);
-		
 	}
 	
 	hoverToolTip();
@@ -419,8 +417,6 @@ function montaToolTip(regra){
 function montaBtnReservar(href){
 	return "<div onclick='window.open(`"+href+"`)' style='"+estiloBtnReservar+"' class='mcolor-action-btn'>RESERVAR</div>";
 }
-
-
 
 function hoverToolTip(){
 	$('.tooltip_icon').hover(function () {
