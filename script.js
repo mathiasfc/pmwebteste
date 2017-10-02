@@ -61,13 +61,13 @@ function ajustaDatePickerCalendario(){
 
 	$('#busca-periodo-label').click(function(){
 		defineEstilosEMedidasDoCalendario();
-		AjustaEstiloDataBetweenCalendario();
 	});
 
 	//Ajusta o preço p/ cada data no calendário.
 	var bAjustouPreco = false;
 	$('#calendario-1').on('DOMNodeInserted', '.bestRate', function () {
 		if(!bAjustouPreco){
+			AjustaEstiloDataBetweenCalendario();
 			bAjustouPreco = true;
 			setTimeout(function(){
 				$('span[class*="fadeIn"]').each(function( index ) {
