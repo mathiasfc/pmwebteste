@@ -3,3 +3,5 @@ logo.png -> https://i.imgur.com/tRUAE2b.png
 left.png -> https://i.imgur.com/kb5T9uH.png
 
 right.png -> https://i.imgur.com/nuKUDV6.png
+
+trip.png -> https://imgur.com/pjFMHgL.png
