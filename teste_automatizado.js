@@ -377,7 +377,9 @@ driver.executeScript("$('.celulaData').eq(20).click();");
 driver.sleep(2500);
 driver.executeScript("$('#modificarBusca').click();");
 driver.sleep(2500);
-driver.executeScript("window.scrollBy(0,150)", "");
+for(var i=0;i<150;i++) {
+    driver.executeScript("window.scrollBy(0,1)", "");
+}
 driver.sleep(500);
 driver.executeScript("$('.itemBtnMaisAcomodacoes').click();");
 driver.sleep(2500);
