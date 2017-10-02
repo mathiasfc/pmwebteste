@@ -22,7 +22,7 @@ npm install selenium-webdriver
 1ª opção: Após ter o selenium e o node corretamente instalados, executar o seguinte comando:
 
 ```
-node [nome do arquivo javascript] + [nome do navegador]
+node [nome do arquivo javascript] + [navegador]
 node teste_automatizado.js chrome
 node teste_automatizado.js firefox
 node teste_automatizado.js ie
@@ -32,11 +32,11 @@ node teste_automatizado.js MicrosoftEdge
 2ª opção: Executar o teste.exe através do seguinte comando:
 
 ```
-[nome do executável] + [nome do navegador]
-teste_automatizado.exe chrome
-teste_automatizado.exe firefox
-teste_automatizado.exe ie
-teste_automatizado.exe MicrosoftEdge
+[nome do executável] + [navegador]
+teste_automatizado-win.exe chrome
+teste_automatizado-win.exe firefox
+teste_automatizado-win.exe ie
+teste_automatizado-win.exe MicrosoftEdge
 ```
 
 ### Navegadores suportados
