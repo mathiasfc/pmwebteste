@@ -15,7 +15,7 @@ Existem duas maneiras para ver a execução dos testes automatizados.
 npm install selenium-webdriver
 ```
 
-2ª maneira: Apenas abrir executável. Win x64 | Linux x64 | Mac x64.
+2ª maneira: Win x64 / Linux x64 / Mac x64.
 
 ## Executando os testes
 
@@ -23,20 +23,20 @@ npm install selenium-webdriver
 
 ```
 node [nome do arquivo javascript] + [nome do navegador]
-node teste.js chrome
-node teste.js firefox
-node teste.js ie
-node teste.js MicrosoftEdge
+node teste_automatizado.js chrome
+node teste_automatizado.js firefox
+node teste_automatizado.js ie
+node teste_automatizado.js MicrosoftEdge
 ```
 
 2ª opção: Executar o teste.exe através do seguinte comando:
 
 ```
 [nome do executável] + [nome do navegador]
-teste.exe chrome
-teste.exe firefox
-teste.exe ie
-teste.exe MicrosoftEdge
+teste_automatizado.exe chrome
+teste_automatizado.exe firefox
+teste_automatizado.exe ie
+teste_automatizado.exe MicrosoftEdge
 ```
 
 ### Navegadores suportados
@@ -50,7 +50,7 @@ teste.exe MicrosoftEdge
 
 ## Executar sem a automatização
 
-Existe um arquivo chamado script.js que contém todo o script que é utilizado nos testes automatizados, basta executá-lo no console do navegador para ver o layout final sem o auxílio do teste automatizado.
+Existe um arquivo chamado script.js que contém todo o script que é utilizado nos testes automatizados, basta executá-lo no console do navegador para ver o layout final.
 
 ## Construído com
 
