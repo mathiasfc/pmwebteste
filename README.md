@@ -38,6 +38,7 @@ teste_automatizado-win.exe firefox
 teste_automatizado-win.exe ie
 teste_automatizado-win.exe MicrosoftEdge
 ```
+Obs: Se o navegador não for informado, usará o chrome.
 
 ### Navegadores suportados
 
