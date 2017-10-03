@@ -12,6 +12,10 @@ ajustaFooter();
 //ModalPromocoes
 criaModalPromocoes();
 
+if(verificaIE()){
+	ajustaEstiloIE();
+}
+
 function ajustaElementosCabecalho(){
 	$('#navTop').css('background-color',corPrimaria); 	
 	$('#navContent img').attr('src','https://imgur.com/tRUAE2b.png').css('top','35px');
@@ -262,7 +266,7 @@ function ajustaCorpoDoSite(){
 	$('.mcolor-cliente-principal-text').css('color',corPrimaria);
 	$('.itemBtnSelecionarAcomodacao').remove();
 	
-	$('.infoAcomodacao').css('margin-top','10px');
+	$('.infoAcomodacao').css('margin-top','20px');
 	$('.itemAcomodacao').css('color','#565656');
 	
 	$('.hoteis-ico-mais-pessoas').css({
@@ -284,7 +288,7 @@ function ajustaCorpoDoSite(){
 	});
 
 	$('.itemBtnMaisAcomodacoes').css({
-		'margin-top': '15px',
+		'margin-top': '10px',
 		'margin-left': '45px',
 		color: corPrimaria
 	});
@@ -449,6 +453,19 @@ function hoverBtnReservar(){
 		$(this).attr('style',$(this).attr('style')+'background-color:#fc5b49 !important;');
 	});
 }
+
+//Verifica se o navegador é o IE
+function verificaIE(){
+	if (navigator.appName == 'Microsoft Internet Explorer' ||  !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv:11/)) || (typeof $.browser !== "undefined" && $.browser.msie == 1)){
+		return true;
+	}
+	return false;
+}
+
+function ajustaEstiloIE(){
+	$('.blocoReserve').css('position','static');
+}
+
 
 var estiloToolTipIcon = "float:left; margin-left: 5px; margin-top:1px; font-size: 10px; height: 13px; width: 13px; text-align: center;  color: #fff; background-color: #b8b8b8; font-weight: 200; border-radius: 15px; cursor: pointer;";
 var estiloToolTipMsg = "text-align: justify; background-color:white; color:grey; box-shadow: #afaeae 0px 0px 10px 0px; border-radius:10px; font-size:12px; height:auto;width:200px;display:none; position:absolute;padding:10px;";
