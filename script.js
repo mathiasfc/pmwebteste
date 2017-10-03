@@ -12,6 +12,7 @@ ajustaFooter();
 //ModalPromocoes
 criaModalPromocoes();
 
+//Ajustes se o browser for o IE
 if(verificaIE()){
 	ajustaEstiloIE();
 }
